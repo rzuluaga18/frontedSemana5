@@ -36,41 +36,21 @@
         <v-list-item-title>Home</v-list-item-title>
       </v-list-item>
 
-      <v-list-item 
-        :to="{name:'Categoria'}"
-        link
-        >
-        <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-icon>
-        
-        <v-list-item-title
-        >Categorias</v-list-item-title>
-      </v-list-item>
-
-      <v-list-group
-        :value="true"
+        <v-list-group
         prepend-icon="mdi-account-circle"
-      >
-        <template v-slot:activator>
-          <v-list-item-title>Users</v-list-item-title>
-        </template>
-
-        <v-list-group
-          :value="true"
-          no-action
-          sub-group
         >
+
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Admin</v-list-item-title>
+              <v-list-item-title>Principal</v-list-item-title>
             </v-list-item-content>
           </template>
 
           <v-list-item
-            v-for="([title, icon], i) in admins"
+            v-for="([title, icon, ruta], i) in admins"
             :key="i"
-            link
+            :to="{name: ruta}"
+        
           >
             <v-list-item-title v-text="title"></v-list-item-title>
 
@@ -81,19 +61,19 @@
         </v-list-group>
 
         <v-list-group
-          no-action
-          sub-group
+        prepend-icon="mdi-account-circle"
         >
+
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Actions</v-list-item-title>
+              <v-list-item-title>Acceso</v-list-item-title>
             </v-list-item-content>
           </template>
 
           <v-list-item
-            v-for="([title, icon], i) in cruds"
+            v-for="([title, icon, router], i) in cruds"
             :key="i"
-            link
+            :to="{name: router}"
           >
             <v-list-item-title v-text="title"></v-list-item-title>
 
@@ -102,7 +82,7 @@
             </v-list-item-icon>
           </v-list-item>
         </v-list-group>
-      </v-list-group>
+     
     </v-list>
   </v-card>
       <!--  -->
@@ -131,14 +111,14 @@ export default {
   data: () => ({
     drawer: null,
     admins: [
-        ['Management', 'mdi-account-multiple-outline'],
-        ['Settings', 'mdi-cog-outline'],
+        ['Categoria', 'mdi-update', 'Categoria'],
+        ['Artículos', 'mdi-file-outline', 'Articulo'],
       ],
       cruds: [
-        ['Create', 'mdi-plus-outline'],
-        ['Read', 'mdi-file-outline'],
-        ['Update', 'mdi-update'],
-        ['Delete', 'mdi-delete'],
+        ['Usuarios', 'mdi-account-multiple-outline', 'Usuario'],
+        // ['Read', 'mdi-file-outline'],
+        // ['Update', 'mdi-update'],
+        // ['Delete', 'mdi-delete'],
       ],
     
     //

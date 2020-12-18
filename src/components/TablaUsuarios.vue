@@ -3,15 +3,15 @@
   <v-app id="inspire">
     <v-data-table
       :headers="headers"
-      :items="desserts"
-      sort-by="calories"
+      :items="usuarios"
+      sort-by="nombre"
       class="elevation-1"
     >
       <template v-slot:top>
         <v-toolbar
           flat
         >
-          <v-toolbar-title>Categorias</v-toolbar-title>
+          <v-toolbar-title>Usuarios</v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -30,7 +30,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                New Item
+                Agregar Usuario
               </v-btn>
             </template>
             <v-card>
@@ -48,7 +48,7 @@
                     >
                       <v-text-field
                         v-model="editedItem.name"
-                        label="Dessert name"
+                        label="Nombre"
                       ></v-text-field>
                     </v-col>
                     <v-col
@@ -58,7 +58,7 @@
                     >
                       <v-text-field
                         v-model="editedItem.calories"
-                        label="Calories"
+                        label="correo"
                       ></v-text-field>
                     </v-col>
                     <v-col
@@ -68,7 +68,7 @@
                     >
                       <v-text-field
                         v-model="editedItem.fat"
-                        label="Fat (g)"
+                        label="rol"
                       ></v-text-field>
                     </v-col>
                     <v-col
@@ -78,7 +78,7 @@
                     >
                       <v-text-field
                         v-model="editedItem.carbs"
-                        label="Carbs (g)"
+                        label="Contraseña"
                       ></v-text-field>
                     </v-col>
                     <v-col
@@ -86,10 +86,7 @@
                       sm="6"
                       md="4"
                     >
-                      <v-text-field
-                        v-model="editedItem.protein"
-                        label="Protein (g)"
-                      ></v-text-field>
+                      
                     </v-col>
                   </v-row>
                 </v-container>
@@ -152,42 +149,45 @@
       </template>
     </v-data-table>
   </v-app>
+  <!-- <pre>
+    {{$data.usuarios}}
+  </pre> -->
 </div>
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
     data: () => ({
     dialog: false,
     dialogDelete: false,
     headers: [
       {
-        text: 'Dessert (100g serving)',
+        text: 'Usuario',
         align: 'start',
-        sortable: false,
+        sortable: true,
         value: 'name',
       },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Correo', value: 'email' },
+      { text: 'Id', value: 'id' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
     desserts: [],
+    usuarios: [], //Se crea para guardar la base de datos
     editedIndex: -1,
     editedItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      Correo: '',
+      id: '',
     },
     defaultItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      Correo: '',
+      id: '',
+      
+     
     },
   }),
 
@@ -207,7 +207,7 @@ export default {
   },
 
   created () {
-    this.initialize()
+    this.list()
   },
 
   methods: {
@@ -221,6 +221,17 @@ export default {
           protein: 4.0,
         },        
       ]
+    },
+
+//Hacemos el llamado a la base de datos y se trae los usuarios
+    list(){
+      axios.get('http://localhost:3000/api/auth/list')
+      .then(response =>{
+        this.usuarios = response.data;
+      })
+      .catch(error =>{
+        console.log(error);
+      })
     },
 
     editItem (item) {
