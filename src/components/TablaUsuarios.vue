@@ -41,6 +41,7 @@
               <v-card-text>
                 <v-container>
                   <v-row>
+
                     <v-col
                       cols="12"
                       sm="6"
@@ -51,23 +52,25 @@
                         label="Nombre"
                       ></v-text-field>
                     </v-col>
+
                     <v-col
                       cols="12"
                       sm="6"
                       md="4"
                     >
                       <v-text-field
-                        v-model="editedItem.calories"
+                        v-model="editedItem.email"
                         label="correo"
                       ></v-text-field>
                     </v-col>
+                    
                     <v-col
                       cols="12"
                       sm="6"
                       md="4"
                     >
                       <v-text-field
-                        v-model="editedItem.fat"
+                        v-model="editedItem.rol"
                         label="rol"
                       ></v-text-field>
                     </v-col>
@@ -77,7 +80,7 @@
                       md="4"
                     >
                       <v-text-field
-                        v-model="editedItem.carbs"
+                        v-model="editedItem.password"
                         label="Contraseña"
                       ></v-text-field>
                     </v-col>
@@ -86,8 +89,8 @@
                       sm="6"
                       md="4"
                     >
-                      
                     </v-col>
+
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -104,7 +107,7 @@
                 <v-btn
                   color="blue darken-1"
                   text
-                  @click="save"
+                  @click="save()"
                 >
                   Save
                 </v-btn>
@@ -179,13 +182,13 @@ export default {
     editedIndex: -1,
     editedItem: {
       name: '',
-      Correo: '',
-      id: '',
+      email: '',
+      password:'',
     },
     defaultItem: {
       name: '',
-      Correo: '',
-      id: '',
+      email: '',
+      password: '',
       
      
     },
@@ -235,7 +238,7 @@ export default {
     },
 
     editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = item.id
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -268,10 +271,31 @@ export default {
     },
 
     save () {
+        console.log(this.editItem.name);
+        
+         
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        //put (editar)
+
+       
+
+          Object.assign(this.desserts[this.editedIndex], this.editedItem)
       } else {
+        //post (crear uno nuevo)
         this.desserts.push(this.editedItem)
+
+        axios({
+          method: 'post',
+        url: 'http://localhost:3000/api/auth/register',
+        body: {
+          name: this.editItem.name,
+                email: this.editItem.email,
+                password: this.editItem.password
+                
+            }
+
+      });
+
       }
       this.close()
     },
