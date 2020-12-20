@@ -4,15 +4,17 @@
   <v-app id="inspire">
     <v-data-table
       :headers="headers"
-      :items="categorias"
+      :items="usuarios"
       sort-by="calories"
       class="elevation-1"
+      :loading="cargando"
+      loading-text="Cargando... por favor espere"
     >
       <template v-slot:top>
         <v-toolbar
           flat
         >
-          <v-toolbar-title>Categorias</v-toolbar-title>
+          <v-toolbar-title>Usuarios</v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -31,7 +33,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                New Item
+                Agregar Usuario
               </v-btn>
             </template>
             <v-card>
@@ -58,14 +60,39 @@
                       
                     >
                       <v-text-field
-                        v-model="editedItem.descripcion"
-                        label="Descripcion"
-                        auto-grow
-                        no-resize
-                        counter="250"
-                      ></v-text-field>
+                        v-model="editedItem.email"
+                        label="Correo"
+                       ></v-text-field>
                     </v-col>
 
+                     <v-col
+                      cols="12"
+                      
+                    >
+                      <v-text-field
+                        v-model="editedItem.password"
+                        label="Contraseña"
+                       ></v-text-field>
+                    </v-col>
+
+
+                      <v-col
+                      cols="12"
+                     >
+                      <v-text-field
+                        v-model="editedItem.estado"
+                        label="Estado"
+                        ></v-text-field>
+                    </v-col>
+
+                     <v-col
+                      cols="12"
+                     >
+                      <v-text-field
+                        v-model="editedItem.rol"
+                        label="Rol"
+                        ></v-text-field>
+                    </v-col>
                  
 
                   </v-row>
@@ -93,7 +120,7 @@
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
-              <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+              <v-card-title class="headline">Esta seguro de realizar este cambio?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
@@ -131,7 +158,7 @@
       <template v-slot:no-data>
         <v-btn
           color="primary"
-          @click="initialize"
+          @click="list"
         >
           Reset
         </v-btn>
@@ -151,32 +178,39 @@ export default {
     data: () => ({
     dialog: false,
     dialogDelete: false,
+    cargando: true,
     headers: [
+      { text: 'ID', value: 'id' },
       {
-        text: 'Categoría',
+        text: 'Nombre',
         align: 'start',
         sortable: true,
         value: 'nombre',
       },
-      { text: 'Descripcion', value: 'descripcion' },
+      { text: 'Correo', value: 'email' },
       { text: 'Estado', value: 'estado' },
-      { text: 'ID', value: 'id' },
+      { text: 'Rol', value: 'rol' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
  
+    usuarios:[],
     categorias: [],
     editedIndex: -1,
     editedItem: {
-      nombre: '',
-      descripcion: '',
-      estado: 0,
       id: 0,
+      nombre: '',
+      email: '',
+      password: '',
+      estado: 0,
+      rol: '',
     },
     defaultItem: {
-      nombre: '',
-      descripcion: '',
-      estado: 0,
       id: 0,
+      nombre: '',
+      email: '',
+      password: '',
+      estado: 0,
+      rol: '',
     },
   }),
 
@@ -196,27 +230,16 @@ export default {
   },
 
   created () {
-    this.initialize()
     this.list()
   },
 
   methods: {
-    initialize () {
-      this.desserts = [
-        {
-          nombre: 'Frozen Yogurt',
-          descripcion: 159,
-          estado: 6.0,
-          id: 24,
-        },
-      ]
-    },
-
+   
     list(){
-      axios.get('http://localhost:3000/api/categoria/list')
+      axios.get('http://localhost:3000/api/usuario/list')
       .then(response =>{
-        this.categorias = response.data;
-        
+        this.usuarios = response.data;
+        this.cargando = false;        
       })
       .catch(error =>{
         console.log(error);
@@ -239,7 +262,7 @@ export default {
     
       if (this.editedItem.estado === 1) {
         //Put (hay que editarlo)
-        axios.put('http://localhost:3000/api/categoria/deactivate',{
+        axios.put('http://localhost:3000/api/usuario/deactivate',{
           "id": this.editedItem.id,
         })
         .then(response => {
@@ -250,7 +273,7 @@ export default {
         })
       } else {
         //Post (hay que crearlo)
-        axios.put('http://localhost:3000/api/categoria/activate',{
+        axios.put('http://localhost:3000/api/usuario/activate',{
           "id": this.editedItem.id,
 
         }).then(response => {
@@ -282,10 +305,10 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         //Put (hay que editarlo)
-        axios.put('http://localhost:3000/api/categoria/update',{
+        axios.put('http://localhost:3000/api/usuario/update',{
           "id": this.editedItem.id,
           "nombre": this.editedItem.nombre,
-          "descripcion": this.editedItem.descripcion,
+          "email": this.editedItem.email,
 
         }).then(response => {
           this.list();
@@ -295,10 +318,12 @@ export default {
         })
       } else {
         //Post (hay que crearlo)
-        axios.post('http://localhost:3000/api/categoria/add',{
-          "estado": 1,
+        axios.post('http://localhost:3000/api/usuario/add',{
           "nombre": this.editedItem.nombre,
-          "descripcion": this.editedItem.descripcion,
+          "email": this.editedItem.email,
+          "password": this.editedItem.password,
+          "rol": this.editedItem.rol,
+          "estado": this.editedItem.estado,
 
         }).then(response => {
           this.list();

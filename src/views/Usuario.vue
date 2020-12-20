@@ -1,17 +1,17 @@
 <template>
 
-<tabla-usuarios></tabla-usuarios>
+<tabla-usuario></tabla-usuario>
 
 </template>
 
 <script>
 
-import TablaUsuarios from '../components/TablaUsuarios.vue'
+import TablaUsuario from '../components/TablaUsuario.vue'
 
 export default {
   name: 'Usuario',
   components:{
-      TablaUsuarios
+      TablaUsuario
   }
 }
 </script>

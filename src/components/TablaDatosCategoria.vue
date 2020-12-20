@@ -1,17 +1,20 @@
 <template>
-    <div id="app">
+  
+  <div id="app">
   <v-app id="inspire">
     <v-data-table
       :headers="headers"
-      :items="usuarios"
-      sort-by="nombre"
+      :items="categorias"
+      sort-by="calories"
       class="elevation-1"
+      :loading="cargando"
+      loading-text="Cargando... por favor espere"
     >
       <template v-slot:top>
         <v-toolbar
           flat
         >
-          <v-toolbar-title>Usuarios</v-toolbar-title>
+          <v-toolbar-title>Categorias</v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -30,7 +33,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                Agregar Usuario
+                New Item
               </v-btn>
             </template>
             <v-card>
@@ -44,52 +47,28 @@
 
                     <v-col
                       cols="12"
-                      sm="6"
-                      md="4"
+                      
                     >
                       <v-text-field
-                        v-model="editedItem.name"
+                        v-model="editedItem.nombre"
                         label="Nombre"
                       ></v-text-field>
                     </v-col>
 
                     <v-col
                       cols="12"
-                      sm="6"
-                      md="4"
+                      
                     >
                       <v-text-field
-                        v-model="editedItem.email"
-                        label="correo"
+                        v-model="editedItem.descripcion"
+                        label="Descripcion"
+                        auto-grow
+                        no-resize
+                        counter="250"
                       ></v-text-field>
                     </v-col>
-                    
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <v-text-field
-                        v-model="editedItem.rol"
-                        label="rol"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <v-text-field
-                        v-model="editedItem.password"
-                        label="Contraseña"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                    </v-col>
+
+                 
 
                   </v-row>
                 </v-container>
@@ -107,7 +86,7 @@
                 <v-btn
                   color="blue darken-1"
                   text
-                  @click="save()"
+                  @click="save"
                 >
                   Save
                 </v-btn>
@@ -116,7 +95,7 @@
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
-              <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+              <v-card-title class="headline">Esta seguro de realizar este cambio?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
@@ -136,10 +115,19 @@
           mdi-pencil
         </v-icon>
         <v-icon
-          small
+          medium
           @click="deleteItem(item)"
         >
-          mdi-delete
+        <template v-if="item.estado">
+
+          mdi-toggle-switch
+        </template>
+
+        <template v-else>
+
+          mdi-toggle-switch-off-outline
+        </template>
+
         </v-icon>
       </template>
       <template v-slot:no-data>
@@ -152,10 +140,9 @@
       </template>
     </v-data-table>
   </v-app>
-  <!-- <pre>
-    {{$data.usuarios}}
-  </pre> -->
+ 
 </div>
+
 </template>
 
 <script>
@@ -166,31 +153,33 @@ export default {
     data: () => ({
     dialog: false,
     dialogDelete: false,
+    cargando: true,
     headers: [
       {
-        text: 'Usuario',
+        text: 'Categoría',
         align: 'start',
         sortable: true,
-        value: 'name',
+        value: 'nombre',
       },
-      { text: 'Correo', value: 'email' },
-      { text: 'Id', value: 'id' },
+      { text: 'Descripcion', value: 'descripcion' },
+      { text: 'Estado', value: 'estado' },
+      { text: 'ID', value: 'id' },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
-    desserts: [],
-    usuarios: [], //Se crea para guardar la base de datos
+ 
+    categorias: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      email: '',
-      password:'',
+      nombre: '',
+      descripcion: '',
+      estado: 0,
+      id: 0,
     },
     defaultItem: {
-      name: '',
-      email: '',
-      password: '',
-      
-     
+      nombre: '',
+      descripcion: '',
+      estado: 0,
+      id: 0,
     },
   }),
 
@@ -214,23 +203,12 @@ export default {
   },
 
   methods: {
-    initialize () {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },        
-      ]
-    },
-
-//Hacemos el llamado a la base de datos y se trae los usuarios
+   
     list(){
-      axios.get('http://localhost:3000/api/auth/list')
+      axios.get('http://localhost:3000/api/categoria/list')
       .then(response =>{
-        this.usuarios = response.data;
+        this.categorias = response.data;
+        this.cargando = false;        
       })
       .catch(error =>{
         console.log(error);
@@ -244,13 +222,36 @@ export default {
     },
 
     deleteItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = item.id
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
-      this.desserts.splice(this.editedIndex, 1)
+    
+      if (this.editedItem.estado === 1) {
+        //Put (hay que editarlo)
+        axios.put('http://localhost:3000/api/categoria/deactivate',{
+          "id": this.editedItem.id,
+        })
+        .then(response => {
+          this.list();
+        })
+        .catch(error => {
+          return error;
+        })
+      } else {
+        //Post (hay que crearlo)
+        axios.put('http://localhost:3000/api/categoria/activate',{
+          "id": this.editedItem.id,
+
+        }).then(response => {
+          this.list();
+        })
+        .catch(error => {
+          return error;
+        })
+      }
       this.closeDelete()
     },
 
@@ -271,31 +272,32 @@ export default {
     },
 
     save () {
-        console.log(this.editItem.name);
-        
-         
       if (this.editedIndex > -1) {
-        //put (editar)
+        //Put (hay que editarlo)
+        axios.put('http://localhost:3000/api/categoria/update',{
+          "id": this.editedItem.id,
+          "nombre": this.editedItem.nombre,
+          "descripcion": this.editedItem.descripcion,
 
-       
-
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        }).then(response => {
+          this.list();
+        })
+        .catch(error => {
+          return error;
+        })
       } else {
-        //post (crear uno nuevo)
-        this.desserts.push(this.editedItem)
+        //Post (hay que crearlo)
+        axios.post('http://localhost:3000/api/categoria/add',{
+          "estado": 1,
+          "nombre": this.editedItem.nombre,
+          "descripcion": this.editedItem.descripcion,
 
-        axios({
-          method: 'post',
-        url: 'http://localhost:3000/api/auth/register',
-        body: {
-          name: this.editItem.name,
-                email: this.editItem.email,
-                password: this.editItem.password
-                
-            }
-
-      });
-
+        }).then(response => {
+          this.list();
+        })
+        .catch(error => {
+          return error;
+        })
       }
       this.close()
     },
