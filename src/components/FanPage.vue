@@ -75,7 +75,7 @@ export default {
         'About Us',
         'Team',
         'Services',
-        'Blog',
+        'Login',
         'Contact Us',
       ],
     }),

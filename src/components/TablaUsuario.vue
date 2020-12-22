@@ -264,6 +264,10 @@ export default {
         //Put (hay que editarlo)
         axios.put('http://localhost:3000/api/usuario/deactivate',{
           "id": this.editedItem.id,
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
         })
         .then(response => {
           this.list();
@@ -276,6 +280,10 @@ export default {
         axios.put('http://localhost:3000/api/usuario/activate',{
           "id": this.editedItem.id,
 
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
         }).then(response => {
           this.list();
         })
@@ -310,6 +318,10 @@ export default {
           "nombre": this.editedItem.nombre,
           "email": this.editedItem.email,
 
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
         }).then(response => {
           this.list();
         })
@@ -325,6 +337,10 @@ export default {
           "rol": this.editedItem.rol,
           "estado": this.editedItem.estado,
 
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
         }).then(response => {
           this.list();
         })

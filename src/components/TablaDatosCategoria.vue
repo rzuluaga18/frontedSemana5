@@ -206,7 +206,7 @@ export default {
    
     list(){
       axios.get('http://localhost:3000/api/categoria/list')
-      .then(response =>{
+       .then(response =>{
         this.categorias = response.data;
         this.cargando = false;        
       })
@@ -233,6 +233,10 @@ export default {
         //Put (hay que editarlo)
         axios.put('http://localhost:3000/api/categoria/deactivate',{
           "id": this.editedItem.id,
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
         })
         .then(response => {
           this.list();
@@ -245,7 +249,12 @@ export default {
         axios.put('http://localhost:3000/api/categoria/activate',{
           "id": this.editedItem.id,
 
-        }).then(response => {
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
+        .then(response => {
           this.list();
         })
         .catch(error => {
@@ -279,7 +288,12 @@ export default {
           "nombre": this.editedItem.nombre,
           "descripcion": this.editedItem.descripcion,
 
-        }).then(response => {
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
+        .then(response => {
           this.list();
         })
         .catch(error => {
@@ -292,7 +306,12 @@ export default {
           "nombre": this.editedItem.nombre,
           "descripcion": this.editedItem.descripcion,
 
-        }).then(response => {
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
+        .then(response => {
           this.list();
         })
         .catch(error => {

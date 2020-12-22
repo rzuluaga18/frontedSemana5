@@ -268,7 +268,11 @@ export default {
         this.articulos = response.data;
         this.cargando = false;     
         console.log(this.articulos);   
-      })
+      }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
       .catch(error =>{
         console.log(error);
       })
@@ -279,7 +283,7 @@ export default {
       axios.get('http://localhost:3000/api/categoria/list')
       .then(response =>{
         this.categorias = response.data;
-               
+           
       })
       .catch(error =>{
         console.log(error);
@@ -305,6 +309,10 @@ export default {
         //Put (hay que editarlo)
         axios.put('http://localhost:3000/api/articulo/deactivate',{
           "id": this.editedItem.id,
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
         })
         .then(response => {
           this.list();
@@ -317,7 +325,13 @@ export default {
         axios.put('http://localhost:3000/api/articulo/activate',{
           "id": this.editedItem.id,
 
-        }).then(response => {
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
+        
+        .then(response => {
           this.list();
         })
         .catch(error => {
@@ -354,7 +368,12 @@ export default {
           "codigo": this.editItem.codigo,
           "categoriaId": this.categoria.id,
 
-        }).then(response => {
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
+        .then(response => {
           this.list();
         })
         .catch(error => {
@@ -369,7 +388,12 @@ export default {
           "codigo": this.editItem.codigo,
           "categoriaId": this.categoria.id,
 
-        }).then(response => {
+        }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
+        .then(response => {
           this.list();
         })
         .catch(error => {
