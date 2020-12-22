@@ -37,8 +37,9 @@
       no-gutters
     >
       <v-btn
-        v-for="link in links"
+        v-for="([link, ruta]) in links"
         :key="link"
+        :to="{name: ruta}"
         color="white"
         text
         rounded
@@ -71,12 +72,12 @@ export default {
         'orange',
       ],
       links: [
-        'Home',
-        'About Us',
-        'Team',
-        'Services',
-        'Login',
-        'Contact Us',
+        ['Home', 'Home'],
+        // 'About Us',
+        // 'Team',
+        // 'Services',
+        ['Login', 'Login'],
+        // 'Contact Us',
       ],
     }),
 }

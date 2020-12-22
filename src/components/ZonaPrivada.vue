@@ -40,12 +40,12 @@
       </v-list-item>
 
         <v-list-group
-        prepend-icon="mdi-account-circle"
+        prepend-icon="mdi-book-open-page-variant"
         >
 
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Principal</v-list-item-title>
+              <v-list-item-title>Landing Page</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -63,13 +63,13 @@
           </v-list-item>
         </v-list-group>
 
-        <v-list-group
+        <v-list-group v-if="this.$store.state.user.rol === 'admin'" 
         prepend-icon="mdi-account-circle"
         >
 
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Acceso</v-list-item-title>
+              <v-list-item-title>Usuarios</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -77,6 +77,7 @@
             v-for="([title, icon, router], i) in cruds"
             :key="i"
             :to="{name: router}"
+            
           >
             <v-list-item-title v-text="title"></v-list-item-title>
 
@@ -113,11 +114,11 @@ export default {
   data: () => ({
     drawer: null,
     admins: [
-        ['Categoria', 'mdi-update', 'Categoria'],
-        ['Artículos', 'mdi-file-outline', 'Articulo'],
+        ['Categoria', 'mdi-clipboard-list-outline', 'Categoria'],
+        ['Servicios', 'mdi-briefcase-check', 'Articulo'],
       ],
       cruds: [
-        ['Usuarios', 'mdi-account-multiple-outline', 'Usuario'],
+        ['Permisos', 'mdi-account-multiple-outline', 'Usuario'],
         // ['Read', 'mdi-file-outline'],
         // ['Update', 'mdi-update'],
         // ['Delete', 'mdi-delete'],

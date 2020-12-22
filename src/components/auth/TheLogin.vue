@@ -12,13 +12,14 @@
                         ref="form"
                         lazy-validation
                     >
-
+                        <!-- campo para el correo -->
                         <v-text-field
                         v-model="login.email"
                         label="E-mail"
                         required
                         ></v-text-field>
 
+                        <!-- campo para la contraseña -->
                         <v-text-field
                         v-model="login.password"
                         label="Contraseña"
@@ -27,7 +28,7 @@
                         ></v-text-field>
 
                     
-
+                        <!-- Boton Ingresar -->
                         <v-btn
                         :disabled="!(this.login.password && this.login.email)"
                         color="success"
@@ -49,6 +50,9 @@
          </v-col>
      </v-row>
  </v-layout>
+
+ 
+ 
 
 </template>
 
