@@ -175,6 +175,7 @@
 import axios from 'axios';
 
 export default {
+    
     data: () => ({
     dialog: false,
     dialogDelete: false,

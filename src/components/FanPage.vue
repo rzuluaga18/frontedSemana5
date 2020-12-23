@@ -25,11 +25,13 @@
     </v-carousel-item>
   </v-carousel> 
 
-  <br>
-  <h1
 
-  >Prueba</h1>
   <br>
+  
+  <br>
+  
+
+
   
 
   <v-footer
@@ -67,7 +69,10 @@
 
 <script>
 
+
+
 export default {
+ 
     data: () => ({
       model: 0,
       colors: [

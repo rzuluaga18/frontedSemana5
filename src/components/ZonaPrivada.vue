@@ -105,12 +105,7 @@
 
 export default {
   name: 'ZonaPrivada',
-
   
-
-  components: {
-  },
-
   data: () => ({
     drawer: null,
     admins: [

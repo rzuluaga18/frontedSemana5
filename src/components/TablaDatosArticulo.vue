@@ -176,9 +176,7 @@
     </v-data-table>
   </v-app>
  
- <pre>
-   {{$data.articulos}}
- </pre>
+ 
 
 
 </div>
@@ -190,6 +188,12 @@
 import axios from 'axios';
 
 export default {
+  // props: {
+  //   filtroServicio: Array,
+  //   default: () => []
+  // },
+   
+    
     data: () => ({
     dialog: false,
     dialogDelete: false,
@@ -211,6 +215,7 @@ export default {
     articulos: [],
     categorias: [],
     categoria:'',
+    filtroServicio: [],
     editedIndex: -1,
     editedItem: {
       id: 0,
@@ -259,11 +264,19 @@ export default {
   methods: {
    
     list(){
+      let item = [];
       axios.get('http://localhost:3000/api/articulo/list')
       .then(response =>{
         this.articulos = response.data;
-        this.cargando = false;     
-        console.log(this.articulos);   
+        this.cargando = false;  
+        for(item of response.data){
+          if(item.estado === 1){
+            this.filtroServicio.push(item);
+            
+          }
+        }  
+        console.log(this.filtroServicio);  
+        // console.log(response.data);   
       }, {
         headers: {
           token: this.$store.state.token
