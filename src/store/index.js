@@ -9,19 +9,42 @@ export default new Vuex.Store({
   state: {
     token: null,
     user:null,
+    datosServicios: [],
+    datosServicio: null
   },
   mutations: {
     setToken(state, token){
         state.token = token;
 
     },
+   
     setUsuario(state, usuario){
         state.user = usuario;
+    },
+
+    //agregado
+    addServicios( state){
+        state.datosServicios = [state.datosServicio, ...state.datosServicios]
+    },
+
+    borrarServicios( state ){
+        state.datosServicios = []
     }
 
+    //**********/
     },
-    
+
     actions: {
+        //agregado
+        saveServicios ( contex ){
+            contex.commit('addServicios');
+        },
+
+        boorar ( contex ) {
+            contex.commit('borrarServicios');
+        },
+        //******** */
+        
         guardarToken({commit}, token){
             commit("setToken", token);
             commit("setUsuario", jwtdecode(token));

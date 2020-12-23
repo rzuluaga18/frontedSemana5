@@ -30,7 +30,9 @@
                 <div class="row">
 
                   <!-- Primerc Carrusel -->
-                  <div class="col-md-4">
+                  <div class="col-md-4"
+                  v-for="item in this.$store.state.datosServicios" 
+                  >
 
                     <div class="card card-body"
                     
@@ -39,10 +41,9 @@
                         class="img-fluid"
                         src="http://placehold.it/380?text=1"
                       />
-                       <h5 class="card-title">Card title</h5>
+                       <h5 class="card-title">{{item.nombre}}</h5>
                         <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
+                          {{item.descripcion}}
                         </p>
                         <a href="#" class="btn btn-primary" id="btn">Go somewhere</a>
                       
