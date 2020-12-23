@@ -17,9 +17,9 @@
               <div class="col-md-6">
             <div id="left-ctn">
                 <div class="box">
-                    <header> Hello World!</header>
+                    <header> Laboratorio de Neuromanagement</header>
                     <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloribus provident ad fuga optio nisi ipsa, vitae dolor error voluptates amet dolores beatae asperiores cum dicta eum quae. Perspiciatis, eius beatae.
+                        LPrestamos Servicios de Neuromarketing y Análisis de Emociones en Colombia, en México, en Perú, en Chile, en Guatemala, en Costa Rica y en Argentina entre otros países.
                     </p>
                     <button type="button" class="btn" id="btn-two">
                         Learn more
@@ -56,6 +56,7 @@ export default {
 
 #sheet {
   opacity: 0.97;
+  background: url('https://i.pinimg.com/564x/6b/c7/05/6bc70561e26985297332d100c67ebd05.jpg')
 }
 
 #left-ctn{
@@ -69,7 +70,7 @@ export default {
 }
 #left-ctn header{
     color:#57048A;
-    font-size: 24px;
+    font-size: 40px;
     font-weight: 700;
     margin-bottom: 20px;
 }

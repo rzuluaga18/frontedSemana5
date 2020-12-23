@@ -1,22 +1,13 @@
 <template>
   <v-container>
     <v-sheet min-height="70vh" rounded="lg" id="sheet">
-      <!-- <div class="col-md-6">
-        <div id="left-ctn">
-          <div class="box">
-            <header>Hello World!</header>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Doloribus provident ad fuga optio nisi ipsa, vitae dolor error
-              voluptates amet dolores beatae asperiores cum dicta eum quae.
-              Perspiciatis, eius beatae.
-            </p>
-            <button type="button" class="btn" id="btn-two">Learn more</button>
-          </div>
-        </div>
-      </div> -->
+      
+
       <div class="container text-center my-3" id="carousel-ctn">
+        <v-sheet id="info-ctn" rounded="lg" class="align-center">
         <header>Servicios</header>
+          </v-sheet>
+        
         <div class="row mx-auto my-auto">
           <div
             id="recipeCarousel"
@@ -45,7 +36,7 @@
                         <p class="card-text">
                           {{item.descripcion}}
                         </p>
-                        <a href="#" class="btn btn-primary" id="btn">Go somewhere</a>
+                        <a href="#" class="btn btn-primary" id="btn">Ver más..</a>
                       
                     </div>
 
@@ -107,13 +98,15 @@ export default {
 
 <style scoped>
 #sheet {
-  opacity: 0.97;
+  opacity: 0.9;
+  background: url('https://i.pinimg.com/564x/c4/13/5f/c4135fa75b6a0f990413a9f0b8c5e14c.jpg');
 }
 #carousel-ctn header {
-  color:#57048A;
-  font-size: 24px;
+  color: #57048A;
+  font-size: 40px;
   font-weight: 700;
   margin-bottom: 20px;
+  align-content: flex-start ;
   }
 
 #btn{
@@ -123,5 +116,8 @@ export default {
   padding: 7px 14px;
   border-radius: 5px;
   border-bottom: 4px solid #1b032b;
+}
+#info-ctn{
+    opacity: 0.9;
 }
 </style>
