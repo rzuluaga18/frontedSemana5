@@ -63,7 +63,7 @@
           </v-list-item>
         </v-list-group>
 
-        <v-list-group v-if="this.$store.state.user.rol === 'admin'" 
+        <v-list-group v-if="this.$store.state.user.rol === 'Administrador'"
         prepend-icon="mdi-account-circle"
         >
 

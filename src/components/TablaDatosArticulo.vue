@@ -45,14 +45,7 @@
                 <v-container>
                   <v-row>
 
-                    <v-col
-                      cols="12"                      
-                    >
-                      <v-text-field
-                        v-model="editedItem.id"
-                        label="ID"
-                      ></v-text-field>
-                    </v-col>
+                    
 
                     <v-col
                       cols="12"                      
@@ -183,6 +176,9 @@
     </v-data-table>
   </v-app>
  
+ <pre>
+   {{$data.articulos}}
+ </pre>
 
 
 </div>
@@ -283,8 +279,12 @@ export default {
       axios.get('http://localhost:3000/api/categoria/list')
       .then(response =>{
         this.categorias = response.data;
-           
-      })
+      
+      }, {
+        headers: {
+          token: this.$store.state.token
+        }
+        })
       .catch(error =>{
         console.log(error);
       })
@@ -365,7 +365,7 @@ export default {
           "id": this.editedItem.id,
           "nombre": this.editedItem.nombre,
           "descripcion": this.editedItem.descripcion,
-          "codigo": this.editItem.codigo,
+          "codigo": this.editedItem.codigo,
           "categoriaId": this.categoria.id,
 
         }, {
@@ -385,7 +385,7 @@ export default {
           "estado": 1,
           "nombre": this.editedItem.nombre,
           "descripcion": this.editedItem.descripcion,
-          "codigo": this.editItem.codigo,
+          "codigo": this.editedItem.codigo,
           "categoriaId": this.categoria.id,
 
         }, {

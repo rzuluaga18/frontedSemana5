@@ -1,7 +1,8 @@
 <template>
    <div>
 
-   <v-carousel v-model="model">
+   <v-carousel 
+   v-model="model">
     <v-carousel-item
       v-for="(color, i) in colors"
       :key="color"
@@ -25,6 +26,9 @@
   </v-carousel> 
 
   <br>
+  <h1
+
+  >Prueba</h1>
   <br>
   
 
@@ -35,6 +39,7 @@
     <v-row
       justify="center"
       no-gutters
+      
     >
       <v-btn
         v-for="([link, ruta]) in links"
@@ -61,6 +66,7 @@
 
 
 <script>
+
 export default {
     data: () => ({
       model: 0,

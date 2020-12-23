@@ -236,7 +236,11 @@ export default {
   methods: {
    
     list(){
-      axios.get('http://localhost:3000/api/usuario/list')
+      axios.get('http://localhost:3000/api/usuario/list',{
+        headers: {
+          token: this.$store.state.token
+        }
+      })
       .then(response =>{
         this.usuarios = response.data;
         this.cargando = false;        
@@ -317,6 +321,8 @@ export default {
           "id": this.editedItem.id,
           "nombre": this.editedItem.nombre,
           "email": this.editedItem.email,
+          "password": this.editedItem.password,
+          "rol": this.editedItem.rol,
 
         }, {
         headers: {

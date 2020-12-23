@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // import { nextTick } from 'vue/types/umd'
 import Home from '../views/Home.vue'
 import store from '../store'
+// import swal from 'sweetalert'
 
 Vue.use(VueRouter)
 
@@ -44,7 +45,9 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "privado" */ '../views/Privado.vue'),
     meta:{
-      auth: true
+      // auth: true,
+      Administrador: true,
+      Vendedor: true
     },
     children: [
 
@@ -56,9 +59,9 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/Categoria.vue'),
         meta:{
-          auth: true,
+          // auth: true,
           Administrador: true,
-          usuario: true
+          Vendedor: true
         }
       },
     
@@ -70,7 +73,7 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/Usuario.vue'),
         meta:{
-          auth: true,
+          // auth: true,
           Administrador: true,
         }
       },
@@ -83,9 +86,9 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/Articulo.vue'),
         meta:{
-          auth: true,
+          // auth: true,
           Administrador: true,
-          usuario: true
+          Vendedor: true
         }
       }
       
@@ -103,16 +106,26 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) =>{
+  //Verifica si la ruta que va a acceder es pública
   if(to.matched.some(record => record.meta.public)){
-    next();
-  }else if(to.matched.some(record => record.meta.auth)){
-    if(store.state.user){
-      next();
-    }else{
-      next({name: 'Login'});
-    }
+    next(); //si es correcto siga a donde necesite
+    //Sino verificar si esa ruta es privada (auth)
+  }else if(to.matched.some(record => record.meta.Administrador)){
+    //Este if verifica si esta autenticado, verificando que exista un usuario
+        if(store.state.user){
+            next();
+        }else{ //sino, lo regresa al login
+          next({name: 'Login'});
+        } 
+      
+  // }else if(to.matched.some(record => record.meta.Vendedor)){
+  //     if(store.state.user.rol === 'Vendedor'){
+  //     next();
+  //     }else{ //sino, lo regresa al login
+  //     next({name: 'Login'});
+  // } 
   }else{
-    next();
+    next();//siga a donde necesite
   }
 })
 

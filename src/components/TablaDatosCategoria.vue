@@ -205,7 +205,11 @@ export default {
   methods: {
    
     list(){
-      axios.get('http://localhost:3000/api/categoria/list')
+      axios.get('http://localhost:3000/api/categoria/list',{
+        headers: {
+          token: this.$store.state.token
+        }
+      })
        .then(response =>{
         this.categorias = response.data;
         this.cargando = false;        
@@ -234,6 +238,7 @@ export default {
         axios.put('http://localhost:3000/api/categoria/deactivate',{
           "id": this.editedItem.id,
         }, {
+          //Para validar el Token en el middlewares del backend
         headers: {
           token: this.$store.state.token
         }
@@ -250,6 +255,7 @@ export default {
           "id": this.editedItem.id,
 
         }, {
+          //Para validar el Token en el middlewares del backend
         headers: {
           token: this.$store.state.token
         }
@@ -289,6 +295,7 @@ export default {
           "descripcion": this.editedItem.descripcion,
 
         }, {
+          //Para validar el Token en el middlewares del backend
         headers: {
           token: this.$store.state.token
         }
@@ -307,6 +314,7 @@ export default {
           "descripcion": this.editedItem.descripcion,
 
         }, {
+          //Para validar el Token en el middlewares del backend
         headers: {
           token: this.$store.state.token
         }
